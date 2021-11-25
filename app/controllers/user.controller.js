@@ -20,7 +20,7 @@ const getPagingData = (data, page, limit) => {
 
 // find all users from db
 exports.findAll = (req, res) => {
-  const { page, size, username } = req.query
+  const { page, size, username, _order } = req.query
   let condition = username ? { username: { [Op.like]: `%${username}%` } } : null
 
   const { limit, offset } = getPagination(page, size);
@@ -29,6 +29,10 @@ exports.findAll = (req, res) => {
     limit,
     offset, 
     where: condition,
+    order: [
+      ['username', _order || 'ASC'],
+      ['createdAt', 'DESC'],
+    ],
   })
     .then((data) => {
       const response = getPagingData(data, page, limit)
