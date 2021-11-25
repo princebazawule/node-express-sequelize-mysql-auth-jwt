@@ -21,12 +21,14 @@ app.use(express.json())
 // parse requests content-type: application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
 
+// connect mysql db
 const db = require("./app/models")
 const Role = db.role
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Db")
-  initial()
+// db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync().then(() => {
+  // console.log("Drop and Resync Db")
+  // initial()
 })
 
 function initial() {
